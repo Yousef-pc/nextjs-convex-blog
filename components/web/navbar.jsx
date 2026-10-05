@@ -1,8 +1,17 @@
+"use client"
+
 import Link from "next/link";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { ThemeToggle } from "./theme-toggle";
+import { useConvexAuth } from "convex/react";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "@/components/ui/toast"
+import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
+  const { isAuthenticated, isLoading } = useConvexAuth();
+  const router = useRouter();
+
   return (
     <nav className="w-full py-5 flex items-center justify-between">
       <div className="flex items-center gap-8">
@@ -35,15 +44,45 @@ export const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <Link className={buttonVariants()} href="/auth/sign-up">
-          Sing up
-        </Link>
-        <Link
-          className={buttonVariants({ variant: "secondary" })}
-          href="/auth/login"
-        >
-          Login
-        </Link>
+        {
+          isLoading ? null : isAuthenticated ? (
+            <Button onClick={() => {
+              authClient.signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    toast.add({
+                      type: "success",
+                      description: "Logged out successfuly",
+                    })
+                    router.push("/")
+                  },
+                  onError: (error) => {
+                    toast.add({
+                      type: "error",
+                      description: error.error?.message ?? "Could not logout",
+                      priority: "high",
+                    })
+                  }
+                }
+              })
+            }}>
+              Logout
+            </Button>
+          ) : (
+            <>
+              <Link className={buttonVariants()} href="/auth/sign-up">
+                Sign up
+              </Link>
+              <Link
+                className={buttonVariants({ variant: "secondary" })}
+                href="/auth/login"
+              >
+                Login
+              </Link>
+            </>
+          )
+        }
+
         <ThemeToggle />
       </div>
     </nav>
