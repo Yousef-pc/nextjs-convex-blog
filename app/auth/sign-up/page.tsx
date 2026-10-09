@@ -24,7 +24,7 @@ const SingUpPage = () => {
     }
   });
   const router = useRouter();
-  const [isPending, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition();
 
   function onSubmit(data: z.infer<typeof singUpSchema>) {
     startTransition(async () => {
