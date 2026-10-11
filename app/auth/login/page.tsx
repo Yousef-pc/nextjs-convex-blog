@@ -24,7 +24,7 @@ const LoginPage = () => {
   });
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  
+
   function onSubmit(data: z.infer<typeof loginSchema>) {
     startTransition(async () => {
       await authClient.signIn.email({
