@@ -12,16 +12,14 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { z } from "zod";
 import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
+import { createBlogAction } from "@/app/actions";
 import { toast } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
 
 const CreateRoute = () => {
-  const mutation = useMutation(api.posts.createPost);
   const router = useRouter();
 
   const form = useForm({
@@ -37,18 +35,18 @@ const CreateRoute = () => {
   function onSubmit(values: z.infer<typeof blogSchema>) {
     startTransition(async () => {
       try {
-        await mutation({
-          body: values.content,
-          title: values.title,
-        })
-        toast.add({ type: "success", description: "Post created!" })
-        router.push("/blog")
+        await createBlogAction(values);
+        toast.add({
+          type: "success",
+          description: "Post created successfully",
+        });
+        router.push("/");
       } catch (error) {
         toast.add({
           type: "error",
-          description: error instanceof Error ? error.message : "Could not create post",
+          description: error instanceof Error ? error.message : "Could not create your post",
           priority: "high",
-        })
+        });
       }
     })
   }
