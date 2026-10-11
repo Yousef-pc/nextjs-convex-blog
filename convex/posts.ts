@@ -1,6 +1,7 @@
 import { mutation } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { authComponent } from "./auth";
+import { blogSchema } from "../app/schemas/blog";
 
 export const createPost = mutation({
   args: { title: v.string(), body: v.string() },
@@ -11,10 +12,19 @@ export const createPost = mutation({
       throw new ConvexError("Not authenticated");
     }
 
-    const blogArticle = await ctx.db.insert("posts", {
+    const parsed = blogSchema.safeParse({
       title: args.title,
-      body: args.body,
-      autherId: user._id,
+      content: args.body,
+    });
+
+    if (!parsed.success) {
+      throw new ConvexError("Invalid input");
+    }
+
+    const blogArticle = await ctx.db.insert("posts", {
+      title: parsed.data.title,
+      body: parsed.data.content,
+      authorId: user._id,
     });
 
     return blogArticle;
