@@ -27,6 +27,7 @@ const CreateRoute = () => {
     defaultValues: {
       title: "",
       content: "",
+      image: undefined,
     }
   });
 
@@ -77,7 +78,11 @@ const CreateRoute = () => {
                         Title
                       </FieldLabel>
 
-                      <Input aria-invalid={fieldState.invalid} placeholder="Super cool title" {...field} />
+                      <Input
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Super cool title"
+                        {...field}
+                      />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
@@ -96,7 +101,39 @@ const CreateRoute = () => {
                         Content
                       </FieldLabel>
 
-                      <Textarea aria-invalid={fieldState.invalid} placeholder="Super cool blog content" {...field} />
+                      <Textarea
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Super cool blog content"
+                        {...field}
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )
+                }}
+              />
+
+              <Controller
+                name="image"
+                control={form.control}
+                render={({ field, fieldState }) => {
+                  return (
+                    <Field>
+                      <FieldLabel>
+                        Image
+                      </FieldLabel>
+
+                      <Input
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Super cool title"
+                        type="file"
+                        accept="image/*"
+                        onChange={(event) => {
+                          const file = event.target.files?.[0];
+                          field.onChange(file);
+                        }}
+                      />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
