@@ -121,7 +121,7 @@ const CreateRoute = () => {
                   return (
                     <Field>
                       <FieldLabel>
-                        Image
+                        Image <span className="text-muted-foreground font-normal">(Optional)</span>
                       </FieldLabel>
 
                       <Input

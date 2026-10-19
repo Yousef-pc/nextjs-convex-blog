@@ -6,17 +6,42 @@ import { api } from "@/convex/_generated/api";
 import { fetchAuthMutation } from "@/lib/auth-server";
 
 export async function createBlogAction(values: z.infer<typeof blogSchema>) {
-  const parsed = blogSchema.safeParse(values);
+  try {
+    const parsed = blogSchema.safeParse(values);
 
-  if (!parsed.success) {
-    throw new Error("Something Went wrong");
-  }
-
-  await fetchAuthMutation(
-    api.posts.createPost,
-    {
-      title: parsed.data.title,
-      body: parsed.data.content,
+    if (!parsed.success) {
+      throw new Error("Something Went wrong");
     }
-  );
+
+    const imageUrl = await fetchAuthMutation(api.posts.generateImageUploadUrl, {});
+
+    const uploadResult = await fetch(imageUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": parsed.data.image.type
+      },
+      body: parsed.data.image,
+    });
+
+    if (!uploadResult.ok) {
+      return {
+        error: "Failed to upload image",
+      }
+    }
+
+    const { storageId } = await uploadResult.json();
+
+    await fetchAuthMutation(
+      api.posts.createPost,
+      {
+        title: parsed.data.title,
+        body: parsed.data.content,
+        imageStorageId: storageId,
+      }
+    );
+  } catch {
+    return {
+      error: "Failed to create post",
+    }
+  }
 }
