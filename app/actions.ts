@@ -4,6 +4,7 @@ import { z } from "zod";
 import { blogSchema } from "./schemas/blog";
 import { api } from "@/convex/_generated/api";
 import { fetchAuthMutation } from "@/lib/auth-server";
+import { updateTag } from "next/cache";
 
 export async function createBlogAction(values: z.infer<typeof blogSchema>) {
   try {
@@ -39,6 +40,8 @@ export async function createBlogAction(values: z.infer<typeof blogSchema>) {
         imageStorageId: storageId,
       }
     );
+
+    updateTag("blog-posts");
   } catch {
     return {
       error: "Failed to create post",

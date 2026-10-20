@@ -1,5 +1,6 @@
 import { buttonVariants } from '@/components/ui/button';
 import { fetchQuery } from "convex/nextjs";
+import { cacheTag } from "next/cache";
 import { api } from "@/convex/_generated/api";
 import { Card, CardFooter, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
@@ -23,6 +24,9 @@ const BlogPage = () => {
 }
 
 async function LoadBlogList() {
+  "use cache";
+  cacheTag("blog-posts");
+
   const data = await fetchQuery(api.posts.getPosts);
 
   return (
@@ -31,10 +35,13 @@ async function LoadBlogList() {
         return (
           <Card key={post._id} className="pt-0">
             <div className="relative h-48 w-full overflow-hidden">
-              <Image src="https://images.unsplash.com/photo-1761019646782-4bc46ba43fe9?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0"
+              <Image src={
+                post.imageUrl ||
+                "https://images.unsplash.com/photo-1761019646782-4bc46ba43fe9?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0"
+              }
                 alt="image"
                 fill
-                className='rounded-t-lg'
+                className='rounded-t-lg object-cover'
               />
             </div>
 

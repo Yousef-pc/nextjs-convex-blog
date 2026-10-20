@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  cacheComponents: true,
+  partialPrefetching: true,
   images: {
     remotePatterns: [
       {
@@ -10,6 +11,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'wandering-scorpion-172.convex.cloud',
+        port: '',
+        pathname: '/**',
+      }
     ],
   },
 };
