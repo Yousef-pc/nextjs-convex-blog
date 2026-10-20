@@ -41,7 +41,7 @@ const CreateRoute = () => {
           type: "success",
           description: "Post created successfully",
         });
-        router.push("/");
+        router.push("/blog");
       } catch (error) {
         toast.add({
           type: "error",
