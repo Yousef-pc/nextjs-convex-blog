@@ -30,6 +30,12 @@ export const createComment = mutation({
       throw new ConvexError("Not authenticated");
     }
 
+    // Checking wether the post exists or not:
+    const post = await ctx.db.get(args.postId);
+    if (!post) {
+      throw new ConvexError("Post not found");
+    }
+
     return await ctx.db.insert("comments", {
       postId: args.postId,
       authorId: user._id,
