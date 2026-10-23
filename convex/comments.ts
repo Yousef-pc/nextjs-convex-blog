@@ -1,5 +1,6 @@
-import { v } from "convex/values";
-import { query } from "./_generated/server";
+import { v, ConvexError } from "convex/values";
+import { mutation, query } from "./_generated/server";
+import { authComponent } from "./auth";
 
 export const getCommentsByPostId = query({
   args: {
@@ -16,3 +17,24 @@ export const getCommentsByPostId = query({
     return data;
   }
 });
+
+export const createComment = mutation({
+  args: {
+    postId: v.id("posts"),
+    body: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await authComponent.safeGetAuthUser(ctx);
+
+    if (!user) {
+      throw new ConvexError("Not authenticated");
+    }
+
+    return await ctx.db.insert("comments", {
+      postId: args.postId,
+      authorId: user._id,
+      authorName: user.name,
+      body: args.body,
+    })
+  }
+})
