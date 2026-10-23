@@ -14,5 +14,6 @@ export default defineSchema({
     authorId: v.string(),
     authorName: v.string(),
     body: v.string(),
-  }),
+  })
+  .index("by_postId", ["postId"]),
 })
