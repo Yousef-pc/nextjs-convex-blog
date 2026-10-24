@@ -56,7 +56,7 @@ async function LoadBlogList() {
             <CardFooter className={buttonVariants(
               { className: "w-full", }
             )}>
-              <Link href={`/blog/${post._id}`}>
+              <Link className="w-full flex items-center justify-center" href={`/blog/${post._id}`}>
                 Read more
               </Link>
             </CardFooter>
