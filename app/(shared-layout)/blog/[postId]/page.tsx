@@ -2,7 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { fetchQuery } from "convex/nextjs";
+import { fetchQuery, preloadQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Separator } from "@/components/ui/separator";
@@ -17,7 +17,14 @@ interface postIdRouteProps {
 const PostIdRoute = async ({ params }: postIdRouteProps) => {
   const { postId } = await params;
 
-  const post = await fetchQuery(api.posts.getPostById, { postId: postId })
+  const [post, preloadedComments] = await Promise.all([
+    fetchQuery(api.posts.getPostById, { postId: postId }),
+    preloadQuery(
+      api.comments.getCommentsByPostId,
+      {
+        postId: postId,
+      }),
+  ])
 
   if (!post) {
     return (
@@ -64,7 +71,7 @@ const PostIdRoute = async ({ params }: postIdRouteProps) => {
 
       <Separator className="my-8" />
 
-      <CommentSection />
+      <CommentSection preloadedComments={preloadedComments} />
     </div>
   )
 }
