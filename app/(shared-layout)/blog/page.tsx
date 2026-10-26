@@ -7,6 +7,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Blog | Next.js 16 toturial",
+  description: "Read our latest articles and insights",
+  category: "Web development",
+  authors: [{ name: "Yousef Pc" }]
+}
 
 const BlogPage = () => {
   return (
