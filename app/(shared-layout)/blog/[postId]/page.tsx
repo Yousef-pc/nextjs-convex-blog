@@ -9,8 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import CommentSection from "@/components/web/CommentSection";
 import { Metadata } from "next";
 import PostPresence from "@/components/web/PostPresence";
-import { getUserId } from "@/convex/presence";
 import { getToken } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
 
 interface postIdRouteProps {
   params: Promise<{
@@ -48,7 +48,11 @@ const PostIdRoute = async ({ params }: postIdRouteProps) => {
         postId: postId,
       }),
       fetchQuery(api.presence.getUserId, {}, { token }),
-  ])
+  ]);
+
+  if (!userId) {
+    return redirect("/auth/login");
+  }
 
   if (!post) {
     return (
