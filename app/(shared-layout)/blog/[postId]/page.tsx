@@ -8,6 +8,9 @@ import { Id } from "@/convex/_generated/dataModel";
 import { Separator } from "@/components/ui/separator";
 import CommentSection from "@/components/web/CommentSection";
 import { Metadata } from "next";
+import PostPresence from "@/components/web/PostPresence";
+import { getUserId } from "@/convex/presence";
+import { getToken } from "@/lib/auth-server";
 
 interface postIdRouteProps {
   params: Promise<{
@@ -35,13 +38,16 @@ export async function generateMetadata({ params }: postIdRouteProps): Promise<Me
 const PostIdRoute = async ({ params }: postIdRouteProps) => {
   const { postId } = await params;
 
-  const [post, preloadedComments] = await Promise.all([
+  const token = await getToken();
+
+  const [post, preloadedComments, userId] = await Promise.all([
     fetchQuery(api.posts.getPostById, { postId: postId }),
     preloadQuery(
       api.comments.getCommentsByPostId,
       {
         postId: postId,
       }),
+      fetchQuery(api.presence.getUserId, {}, { token }),
   ])
 
   if (!post) {
@@ -76,9 +82,13 @@ const PostIdRoute = async ({ params }: postIdRouteProps) => {
       <div className="space-y-4 flex flex-col">
         <h1 className="text-4xl font-bold tracking-tight text-foreground">{post.title}</h1>
 
-        <p className="text-sm text-muted-foreground">
-          Created at: {new Date(post._creationTime).toLocaleDateString()}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-sm text-muted-foreground">
+            Created at: {new Date(post._creationTime).toLocaleDateString()}
+          </p>
+
+          {userId && <PostPresence roomId={post._id} userId={userId} />}
+        </div>
       </div>
 
       <Separator className="my-8" />
