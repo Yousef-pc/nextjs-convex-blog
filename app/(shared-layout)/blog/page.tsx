@@ -8,6 +8,10 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Metadata } from 'next';
+import { getToken } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
+
+export const instant = false;
 
 export const metadata: Metadata = {
   title: "Blog | Next.js 16 toturial",
@@ -16,7 +20,13 @@ export const metadata: Metadata = {
   authors: [{ name: "Yousef Pc" }]
 }
 
-const BlogPage = () => {
+const BlogPage = async () => {
+  // 1. Top-level page check (Dynamic - runs on every request)
+  const token = await getToken();
+  if (!token) {
+    redirect("/auth/login");
+  }
+
   return (
     <div className="py-12">
       <div className="text-center pb-12">
