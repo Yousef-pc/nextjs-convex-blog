@@ -7,7 +7,13 @@ export default defineSchema({
     body: v.string(),
     authorId: v.string(),
     imageStorageId: v.optional(v.id("_storage")),
-  }),
+  })
+    .searchIndex("search_title", {
+      searchField: "title",
+    })
+    .searchIndex("search_body", {
+      searchField: "body",
+    }),
 
   comments: defineTable({
     postId: v.id("posts"),
@@ -15,5 +21,5 @@ export default defineSchema({
     authorName: v.string(),
     body: v.string(),
   })
-  .index("by_postId", ["postId"]),
+    .index("by_postId", ["postId"]),
 })
