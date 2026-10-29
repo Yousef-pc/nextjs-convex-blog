@@ -52,7 +52,7 @@ export const Navbar = () => {
                   onSuccess: () => {
                     toast.add({
                       type: "success",
-                      description: "Logged out successfuly",
+                      description: "Logged out successfully",
                     })
                     router.push("/")
                   },
