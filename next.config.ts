@@ -16,7 +16,13 @@ const nextConfig: NextConfig = {
         hostname: 'wandering-scorpion-172.convex.cloud',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https', 
+        hostname: 'opulent-alpaca-843.convex.cloud',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
