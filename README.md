@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NextPro Blog
 
-## Getting Started
+A modern, full-stack blog application built with Next.js 16, Convex, and Better Auth. This project features real-time updates, live user presence, and secure authentication.
 
-First, run the development server:
+## 🚀 Live Demo
+[Insert your Vercel Link Here](https://nextjs-convex-blog-wine.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Authentication**: Secure sign-up, login, and logout using Better Auth and JWT.
+- **Post Management**: Create blog posts with title, body, and optional image uploads.
+- **Image Storage**: Direct file uploads handled by Convex File Storage.
+- **Real-Time Comments**: Users can comment on posts, and updates appear instantly.
+- **Live Presence**: See who else is currently viewing the same blog post in real-time.
+- **Search**: Fast, indexed search for finding posts by title and content.
+- **Next.js 16 Optimizations**: Utilizes Partial Prerendering (PPR), `use cache`, and Suspense for lightning-fast load times.
+- **SEO Ready**: Dynamic metadata for blog posts and static metadata for general pages.
+- **Modern UI**: Built with shadcn/ui, Tailwind CSS, and Lucide Icons, featuring dark/light mode.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Backend & Database**: [Convex](https://www.convex.dev/)
+- **Authentication**: [Better Auth](https://www.better-auth.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
+- **Form Handling**: [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
+- **Icons**: [Lucide React](https://lucide.dev/)
 
-## Learn More
+## 📸 Screenshots
 
-To learn more about Next.js, take a look at the following resources:
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/7d0636a0-55f4-4cbd-acd4-3aca49f65490" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/57d9ca2e-40e8-4c36-9ec2-6d2b89f31a70" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/ab6f69e6-545f-4cbc-8020-343648e50f79" />
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
