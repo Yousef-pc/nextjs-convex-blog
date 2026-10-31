@@ -3,7 +3,7 @@
 A modern, full-stack blog application built with Next.js 16, Convex, and Better Auth. This project features real-time updates, live user presence, and secure authentication.
 
 ## 🚀 Live Demo
-[Insert your Vercel Link Here](https://nextjs-convex-blog-wine.vercel.app/)
+[https://nextjs-convex-blog-wine.vercel.app/]
 
 ## ✨ Features
 
